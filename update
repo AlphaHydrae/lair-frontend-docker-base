@@ -3,8 +3,14 @@
 package_file="$1"
 test -z "$package_file" && package_file="../lair-frontend/package.json"
 
+package_lock_file="$2"
+test -z "$package_lock_file" && package_lock_file="$(echo "$package_file"|sed 's/\.json/-lock.json/')"
+
 if ! test -f "$package_file"; then
   >&2 echo $package_file does not exist
+elif ! test -f "$package_lock_file"; then
+  >&2 echo $package_lock_file does not exist
 fi
 
 cp "$package_file" .
+cp "$package_lock_file" .
